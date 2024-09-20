@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using XuongMay.Contract.Repositories.Entity;
 using XuongMay.Repositories.Entity;
+using System;
 
 namespace XuongMay.Repositories.Context
 {
@@ -17,7 +18,33 @@ namespace XuongMay.Repositories.Context
         public virtual DbSet<ApplicationUserLogins> ApplicationUserLogins => Set<ApplicationUserLogins>();
         public virtual DbSet<ApplicationRoleClaims> ApplicationRoleClaims => Set<ApplicationRoleClaims>();
         public virtual DbSet<ApplicationUserTokens> ApplicationUserTokens => Set<ApplicationUserTokens>();
-
         public virtual DbSet<UserInfo> UserInfos => Set<UserInfo>();
+
+  
+        public virtual DbSet<Order> Orders => Set<Order>();
+        public virtual DbSet<Account> Accounts => Set<Account>();
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            #region Primary Keys
+            modelBuilder.Entity<Order>().HasKey(o => o.OrderId);
+            modelBuilder.Entity<Account>().HasKey(a => a.AccountId);
+            #endregion
+
+            #region Relationships
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Account)
+                .WithMany(a => a.Orders);
+
+            #endregion
+
+
+
+
+
+        }
     }
 }
