@@ -15,4 +15,6 @@ public class Order
     public virtual Account? Account { get; set; }
     public virtual Payment? Payment { get; set; }
     public virtual ApplicationUser? User { get; set; }
+    public virtual ICollection<StatusChange>? StatusChanges { get; set; }
+    public virtual ICollection<OrderDetail>? OrderDetails { get; set; }
 }

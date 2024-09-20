@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Principal;
 
 namespace XuongMay.Contract.Repositories.Entity;
 
@@ -15,4 +16,5 @@ public class Product
     // Navigation properties
     public virtual Category? Category { get; set; }
     public virtual Shop? Shop { get; set; }
+    public virtual ICollection<OrderDetail>? OrderDetails { get; set; }
 }
