@@ -7,7 +7,7 @@ public class Review
 {
     [MaxLength(50)] public required string ReviewId { get; set; }
     [MaxLength(50)] public required string ProductId { get; set; }
-    [MaxLength(50)] public required string UserId { get; set; }
+    [MaxLength(50)] public required Guid UserId { get; set; }
     [MaxLength(50)] public required string ReplyId { get; set; }
     [MaxLength(255)] public string? Content { get; set; }
     public int Rating { get; set; }

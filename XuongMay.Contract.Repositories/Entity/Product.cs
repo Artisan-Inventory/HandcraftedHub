@@ -17,4 +17,6 @@ public class Product
     public virtual Category? Category { get; set; }
     public virtual Shop? Shop { get; set; }
     public virtual ICollection<OrderDetail>? OrderDetails { get; set; }
+    public virtual ICollection<Review>? Reviews { get; set; }
+    public virtual ICollection<MediaUpload>? MediaUploads { get; set; }
 }

@@ -7,7 +7,7 @@ public class Cart
 {
     [MaxLength(50)] public required string CartId { get; set; }
     [MaxLength(50)] public required string ProductId { get; set; }
-    [MaxLength(50)] public required string UserId { get; set; }
+    [MaxLength(50)] public required Guid UserId { get; set; }
     public int ProductQuantity { get; set; }
     
     

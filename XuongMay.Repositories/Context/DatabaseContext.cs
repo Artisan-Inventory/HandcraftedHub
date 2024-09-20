@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using XuongMay.Contract.Repositories.Entity;
 using XuongMay.Repositories.Entity;
 using System;
+using Microsoft.Extensions.Configuration;
 
 namespace XuongMay.Repositories.Context
 {
@@ -65,7 +66,6 @@ namespace XuongMay.Repositories.Context
             #endregion
 
             #region Relationships
-
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.Payment)
                 .WithOne(p => p.Order)
@@ -101,11 +101,91 @@ namespace XuongMay.Repositories.Context
                 .WithMany(p => p.OrderDetails)  
                 .HasForeignKey(od => od.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
-
             
+            // Category
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Products)
+                .WithOne(p => p.Category)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
             
+            // Product
             
+            modelBuilder.Entity<Product>()
+                .HasMany(p => p.OrderDetails)
+                .WithOne(od => od.Product)
+                .HasForeignKey(od => od.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<Product>()
+                .HasMany(p => p.Reviews)
+                .WithOne(r => r.Product)
+                .HasForeignKey(r => r.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<Product>()
+                .HasMany(p => p.MediaUploads)
+                .WithOne(m => m.Product)
+                .HasForeignKey(m => m.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            // Shop
+            modelBuilder.Entity<Shop>()
+                .HasMany(s => s.Products)
+                .WithOne(p => p.Shop)
+                .HasForeignKey(p => p.ShopId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<Shop>()
+                .HasMany(s => s.Replies)
+                .WithOne(r => r.Shop)
+                .HasForeignKey(r => r.ShopId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<Shop>()
+                .HasOne(s => s.User)
+                .WithOne(u => u.Shop)
+                .HasForeignKey<Shop>(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade); 
+            
+            // Review
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.User)
+                .WithMany(u => u.Reviews)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            // Reply
+            modelBuilder.Entity<Reply>()
+                .HasOne(r => r.Review)
+                .WithOne(rv => rv.Reply)
+                .HasForeignKey<Reply>(r => r.ReviewId)
+                .OnDelete(DeleteBehavior.Cascade); 
+            
+            // Payment
+            modelBuilder.Entity<Payment>()
+                .HasMany(p => p.PaymentDetails)
+                .WithOne(pd => pd.Payment)
+                .HasForeignKey(pd => pd.PaymentId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            // Cart
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.User)
+                .WithOne(u => u.Cart)
+                .HasForeignKey<Cart>(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
             #endregion
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=(local);uid=sa;pwd=12345;database=HandcraftedHub;TrustServerCertificate=True");
+            }
+        }
+
+   
+
     }
 }

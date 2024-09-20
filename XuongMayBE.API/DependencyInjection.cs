@@ -30,9 +30,12 @@ namespace XuongMayBE.API
         {
             services.AddDbContext<DatabaseContext>(options =>
             {
-                options.UseLazyLoadingProxies().UseSqlServer(configuration.GetConnectionString("MyCnn"));
+                options.UseLazyLoadingProxies()
+                    .UseSqlServer(configuration.GetConnectionString("HandcraftedHub"), 
+                        b => b.MigrationsAssembly("XuongMayBE.API")); // Change to your target project name
             });
         }
+
 
         public static void AddIdentity(this IServiceCollection services)
         {

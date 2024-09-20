@@ -7,7 +7,7 @@ public class Order
 {
     [MaxLength(50)] public required string OrderId { get; set; }
     [MaxLength(50)] public required string PaymentId { get; set; }
-    [MaxLength(50)] public required string UserId { get; set; }
+    [MaxLength(50)] public required Guid UserId { get; set; }
     public DateTime OrderDate { get; set; }
     [MaxLength(50)] public string? CurrentStatus { get; set; }
 
